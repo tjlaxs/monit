@@ -1909,91 +1909,93 @@ Example: Alert if a file exist which shouldn't
 
 =head2 RESOURCE TESTS
 
-Monit can examine how much system resources a service is using.
-This test can only be used within a system or process service
-entry in the Monit control file.
+Monit can examine how much resources a service is using. This
+test can only be used within a system or process service entry
+in the Monit control file.
 
 Depending on system or process characteristics, services can be
 stopped or restarted and alerts can be generated. Thus it is
 possible to utilise systems which are idle and to spare system
 under high load.
 
-The full syntax for a resource-statement used for resource
-testing is as follows (keywords are in capital and optional
-statements in [brackets]),
+Syntax:
 
  IF <resource> <operator> <value> THEN <action>
-
-
-I<resource> is a choice of "CPU", "TOTAL CPU",
-"CPU([user|system|wait])", "MEMORY", "SWAP", "THREADS", "CHILDREN",
-"TOTAL MEMORY", "LOADAVG([1min|5min|15min])". Some resource tests can
-be used inside a check system entry, some in a check process entry and
-some in both:
-
-System only resource tests:
-
-CPU([user|system|wait]) is the percent of time the system spend
-in user or kernel space and I/O. The user/system/wait modifier is
-optional, if not used, the total system cpu usage is tested.
-
-SWAP is the swap usage of the system in either percent (of the
-systems total) or as an amount (Byte, kB, MB, GB).
-
-Process only resource tests:
-
-CPU is the CPU usage of the process itself (percent). Monit calculates
-the CPU usage based on number of threads vs. available CPU cores. If the
-process has one thread, the 100% CPU usage equals to 100% utilization
-of one CPU core. If it has 2 threads, 100% CPU usage is reported when it
-uses 2 CPU cores on 100%, etc. If the process has more threads then the
-machine's available CPU cores, then the 100% CPU usage corresponds to
-utilization of all available CPU cores.
-
-TOTAL CPU is the total CPU usage of the process and its children
-in (percent). You will want to use TOTAL CPU typically for
-services like Apache web server where one master process forks
-child processes as workers.
-
-THREADS is the number of processes' threads.
-
-CHILDREN is the number of child processes of the process.
-
-TOTAL MEMORY is the memory usage of the process and its child
-processes in either percent or as an amount (Byte, kB, MB, GB).
-
-System and process resource tests:
-
-MEMORY is the memory usage of the system or of a process (without
-children) in either percent (of the systems total) or as an
-amount (Byte, kB, MB, GB).
-
-LOADAVG([1min|5min|15min]) refers to the system's load average.
-The load average is the number of processes in the system run
-queue, averaged over the specified time period.
 
 I<operator> is a choice of "<", ">", "!=", "==" in C notation,
 "gt", "lt", "eq", "ne" in shell sh notation and "greater",
 "less", "equal", "notequal" in human readable form (if not
 specified, default is EQUAL).
 
-I<value> is either an integer or a real number. For CPU, TOTAL CPU,
-MEMORY and TOTAL MEMORY you need to specify a I<unit>. This could
-be "%" or if applicable "B" (Byte), "kB" (1024 Byte), "MB" (1024 KiloByte)
-or "GB" (1024 MegaByte).
+I<value> is either an integer or a real number.
 
 I<action> is a choice of "ALERT", "RESTART", "START", "STOP",
 "EXEC" or "UNMONITOR".
 
-To calculate the cycles, a counter is raised whenever the
-expression above is true and it is lowered whenever it is false
-(but not below 0). All counters are reset in case of a restart.
+I<resource> set depends on the service type:
 
-The following is an example to check that the CPU usage of a
-service is not going beyond 50% during five poll cycles. If it
-does, Monit will restart the service:
+=head3 System resource tests
 
- if cpu is greater than 50% for 5 cycles then restart
+I<LOADAVG([1min|5min|15min])> refers to the system's load average.
+The load average is the number of processes in the system run
+queue, averaged over the specified time period. Example:
+
+ if loadavg (1min) > 90 for 15 cycles then alert
+ if loadavg (5min) > 80 for 10 cycles then alert
+ if loadavg (15min) > 70 for 8 cycles then alert
+
+I<CPU([user|system|wait])> is the percent of time the system spend
+in user or kernel space and I/O. The user/system/wait modifier is
+optional, if not used, the total system cpu usage is tested. Example:
+
+ if cpu usage > 95% for 10 cycles then alert
+
+I<MEMORY> is the system memory usage [%] or absolute value [B, kB,
+MB, GB]. Example:
+
+ if memory usage > 75% for 5 cycles then alert
+
+I<SWAP> is the swap usage of the system [%] or absolute [B, kB, MB,
+GB]. Example:
+
+ if swap usage > 20% for 10 cycles then alert
+
+=head3 Process resource tests
+
+I<CPU> is the CPU usage of the process itself [%]. Monit calculates
+the CPU usage based on number of threads vs. available CPU cores. If the
+process has one thread, the 100% CPU usage equals to 100% utilization
+of one CPU core. If it has 2 threads, 100% CPU usage is reported when it
+uses 2 CPU cores on 100%, etc. If the process has more threads then the
+machine's available CPU cores, then the 100% CPU usage corresponds to
+utilization of all available CPU cores. Example:
+
+ if cpu > 10% for 5 cycles then restart
+
+I<TOTAL CPU> is the total CPU usage of the process and its children
+in (percent). You will want to use TOTAL CPU typically for services
+like Apache web server where one master process forks child processes
+as workers. Example:
+
+ if total cpu > 50% for 10 cycles then restart
+
+I<THREADS> is the number of processes' threads. Example:
+
+ if threads > 3 then alert
+
+I<CHILDREN> is the number of child processes of the process. Example:
+
+ if children > 10 then alert
+
+I<MEMORY> is the memory usage of the process itself, [%] or absolute
+value [B, kB, MB, GB]. Example:
+
+ if memory usage > 8 MB then alert
+
+I<TOTAL MEMORY> is the memory usage of the process and its child
+processes in either percent or as an amount [B, kB, MB, GB]. Example:
+
+ if total memory usage > 1% for 10 cycles then alert
 
 
 =head2 PROCESS DISK I/O TEST
