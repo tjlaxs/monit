@@ -3561,13 +3561,17 @@ For example:
 
 L<M/Monit|https://mmonit.com> expands on Monit's capabilities and
 provides monitoring and management of all your Monit enabled hosts.
+
 M/Monit uses Monit as an agent. With regular intervals, Monit sends a
 status message to M/Monit with a snapshot of the host it is running on.
+
 M/Monit presents the collected data in charts and event logs and give
 you the option to view key performance data of all your hosts in a
 modern, clean and well designed user interface which also works on
-mobile devices. From M/Monit, you can also start, stop and restart
-services on your hosts running Monit.
+mobile devices.
+
+From M/Monit, you can also start, stop and restart services on your
+hosts running Monit.
 
 To send data to M/Monit, add the following statement to your Monit
 control file:
@@ -3584,6 +3588,9 @@ Monit will register itself in M/Monit and will start sending status and
 event messages to M/Monit. We recommend using I<https> as in the
 example above to ensure that the communication between Monit and
 M/Monit is secure.
+
+The password should be URL encoded if it contains URL-significant characters
+like ":", "?", "@".
 
 The default timeout is 5 seconds, you can customise the timeout using
 the I<TIMEOUT> option.
