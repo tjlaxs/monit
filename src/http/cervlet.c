@@ -1864,7 +1864,7 @@ static void print_service_rules_port(HttpResponse res, Service_T s) {
                         if (options && *options)
                                 StringBuffer_append(buf, " with options {%s}", options);
                         if (p->target.net.ssl.certificate.minimumDays > 0)
-                                StringBuffer_append(buf, " and certificate expires in more than %d days", p->target.net.ssl.certificate.minimumDays);
+                                StringBuffer_append(buf, " and certificate valid for at least %d days", p->target.net.ssl.certificate.minimumDays);
                         if (p->target.net.ssl.options.checksum)
                                 StringBuffer_append(buf, " and certificate checksum %s equal to '%s'", checksumnames[p->target.net.ssl.options.checksumType], p->target.net.ssl.options.checksum);
                 }

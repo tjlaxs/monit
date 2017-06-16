@@ -1117,7 +1117,7 @@ void Util_printService(Service_T s) {
                         if (options && *options)
                                 StringBuffer_append(buf2, " with options {%s}", options);
                         if (o->target.net.ssl.certificate.minimumDays > 0)
-                                StringBuffer_append(buf2, " and certificate expires in more than %d days", o->target.net.ssl.certificate.minimumDays);
+                                StringBuffer_append(buf2, " and certificate valid for at least %d days", o->target.net.ssl.certificate.minimumDays);
                         if (o->target.net.ssl.options.checksum)
                                 StringBuffer_append(buf2, " and certificate checksum %s equal to '%s'", checksumnames[o->target.net.ssl.options.checksumType], o->target.net.ssl.options.checksum);
                 }
