@@ -813,7 +813,8 @@ typedef struct Program_T {
         time_t started;                      /**< When the sub-process was started */
         int timeout;           /**< Seconds the program may run until it is killed */
         int exitStatus;                 /**< Sub-process exit status for reporting */
-        StringBuffer_T output;                            /**< Last program output */
+        StringBuffer_T lastOutput;                        /**< Last program output */
+        StringBuffer_T inprogressOutput; /**< Output of the pending program instance */
 } *Program_T;
 
 

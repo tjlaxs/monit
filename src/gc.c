@@ -186,7 +186,8 @@ static void _gc_service(Service_T *s) {
                         Command_free(&(*s)->program->C);
                 if ((*s)->program->args)
                         gccmd(&(*s)->program->args);
-                StringBuffer_free(&((*s)->program->output));
+                StringBuffer_free(&((*s)->program->lastOutput));
+                StringBuffer_free(&((*s)->program->inprogressOutput));
                 FREE((*s)->program);
         }
         if ((*s)->portlist)

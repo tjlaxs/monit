@@ -433,7 +433,7 @@ static void _printStatus(Output_Type type, HttpResponse res, Service_T s) {
                         case Service_Program:
                                 if (s->program->started) {
                                         _formatStatus("last exit value", Event_Status, type, res, s, true, "%d", s->program->exitStatus);
-                                        _formatStatus("last output", Event_Status, type, res, s, StringBuffer_length(s->program->output), "%s", StringBuffer_toString(s->program->output));
+                                        _formatStatus("last output", Event_Status, type, res, s, StringBuffer_length(s->program->lastOutput), "%s", StringBuffer_toString(s->program->lastOutput));
                                 }
                                 break;
 
@@ -1314,9 +1314,9 @@ static void do_home_program(HttpResponse res) {
                 } else {
                         if (s->program->started) {
                                 StringBuffer_append(res->outputbuffer, "<td class='left short'>");
-                                if (StringBuffer_length(s->program->output)) {
+                                if (StringBuffer_length(s->program->lastOutput)) {
                                         // Print first line only (escape HTML characters if any)
-                                        const char *output = StringBuffer_toString(s->program->output);
+                                        const char *output = StringBuffer_toString(s->program->lastOutput);
                                         for (int i = 0; output[i]; i++) {
                                                 if (output[i] == '<')
                                                         StringBuffer_append(res->outputbuffer, "&lt;");
