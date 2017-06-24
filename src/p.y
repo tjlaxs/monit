@@ -1699,8 +1699,12 @@ http            : username {
                 ;
 
 status          : STATUS operator NUMBER {
+                        if ($<number>3 < 0) {
+                                yyerror2("The status value must be greater or equal to 0");
+                        }
                         portset.parameters.http.operator = $<number>2;
                         portset.parameters.http.status = $<number>3;
+                        portset.parameters.http.hasStatus = true;
                   }
                 ;
 

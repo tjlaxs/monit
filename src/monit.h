@@ -678,6 +678,7 @@ typedef struct Port_T {
                 } generic;
                 struct {
                         Hash_Type hashtype;           /**< Type of hash for a checksum (optional) */
+                        boolean_t hasStatus;                    /**< Is explicit HTTP status set? */
                         Operator_Type operator;                         /**< HTTP status operator */
                         Http_Method method;
                         int status;                                              /**< HTTP status */

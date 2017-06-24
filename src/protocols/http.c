@@ -185,7 +185,7 @@ static void _checkResponse(Socket_T socket, Port_T P) {
         Str_chomp(buf);
         if (! sscanf(buf, "%*s %d", &status))
                 THROW(ProtocolException, "HTTP error: Cannot parse HTTP status in response: %s", buf);
-        if (! Util_evalQExpression(P->parameters.http.operator, status, P->parameters.http.status ? P->parameters.http.status : 400))
+        if (! Util_evalQExpression(P->parameters.http.operator, status, P->parameters.http.hasStatus ? P->parameters.http.status : 400))
                 THROW(ProtocolException, "HTTP error: Server returned status %d", status);
         /* Get Content-Length header value */
         while (Socket_readLine(socket, buf, sizeof(buf))) {
