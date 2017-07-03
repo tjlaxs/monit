@@ -450,7 +450,8 @@ Monit will log status and error messages to a file or via syslog. Use
 the I<set log> statement in the monitrc control file.
 
 To setup Monit to log to its own file, use e.g. I<set log
-/var/log/monit.log>.
+/var/log/monit.log>. Note, the previous I<set logfile> statement
+is deprecated, but can alternatively be used.
 
 If B<syslog> is given as a value for the C<-l> command-line switch
 or the keyword I<set log syslog> is found in the control file, Monit
@@ -477,8 +478,8 @@ of the command-line output, if the terminal supports colors,
 and UTF-8 box characters for tabular output.
 
 If you want to process the monit CLI output in a script, you
-can use either -B option or the following statement in the monit
-configuration file to disable the tabular output and colors
+can use either the -B option or use the following statement in the
+monit configuration file to disable tabular output and colors 
 completely:
 
  SET TERMINAL BATCH
