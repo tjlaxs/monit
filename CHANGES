@@ -11,6 +11,8 @@ Fixed: Issue #633: HTTP protocol test: allow to use zero status value.
 
 Fixed: Issue #634: Display check program output.
 
+Fixed: Issue #640: SSL option CACERTIFICATEPATH doesn't work.
+
 
 Version 5.23.0
 

@@ -534,8 +534,9 @@ T Ssl_new(SslOptions_T options) {
         }
         SSL_CTX_set_default_verify_paths(C->ctx);
         const char *CACertificateFile = _optionsCACertificateFile(options->CACertificateFile);
-        if (CACertificateFile) {
-                if (! SSL_CTX_load_verify_locations(C->ctx, CACertificateFile, _optionsCACertificatePath(options->CACertificatePath))) {
+        const char *CACertificatePath = _optionsCACertificatePath(options->CACertificatePath);
+        if (CACertificateFile || CACertificatePath) {
+                if (! SSL_CTX_load_verify_locations(C->ctx, CACertificateFile, CACertificatePath)) {
                         LogError("SSL: CA certificates loading failed -- %s\n", SSLERROR);
                         goto sslerror;
                 }
