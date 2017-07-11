@@ -382,7 +382,7 @@ static boolean_t _getDevice(Info_T inf, const char *path, boolean_t (*compare)(c
                 }
         }
         if (inf->filesystem->object.generation != _statistics.generation || _statistics.fd == -1) {
-                DEBUG("Reloading mount informations for filesystem '%s'\n", path);
+                DEBUG("Reloading mount information for filesystem '%s'\n", path);
                 _setDevice(inf, path, compare);
         }
         if (inf->filesystem->object.mounted) {

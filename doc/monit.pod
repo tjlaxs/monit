@@ -955,7 +955,7 @@ PAM to access the web interface:
 
 =head4 htpasswd file
 
-Alternatively you store credentials in a C<htpasswd> formated file (one
+Alternatively you store credentials in a C<htpasswd> formatted file (one
 I<user:passwd> entry per line), like so: I<allow [cleartext|crypt|md5]
 /path [users]>. The default is cleartext passwords. In case passwords
 are digested it is necessary to specify the cryptographic method. If
@@ -1525,11 +1525,11 @@ won't try to start the HA group also. Even though the group was active
 on H1 before it crashed, as HA is running on H2 now.
 
 In I<laststate> mode, a service's monitoring state is persistent across
-reboot. For instance, if a service was started before reboot, it willl
+reboot. For instance, if a service was started before reboot, it will
 be started after reboot. If it was stopped before reboot, it will
 not be started after and so on.
 
-The default ONREBOOT START mode can be overriden globally:
+The default ONREBOOT START mode can be overridden globally:
 
   SET ONREBOOT <START | NOSTART | LASTSTATE>
 
@@ -1876,7 +1876,7 @@ Note: the maximum value for cycles is 64.
 
 =head2 EXISTENCE TESTS
 
-This test allows to trigger an action based on the monitored object
+This test allows one to trigger an action based on the monitored object
 existence. It is supported for I<process>, I<file>, I<directory>,
 I<filesystem> and I<fifo> services.
 
@@ -2184,7 +2184,7 @@ There are four timestamp test types:
 =item ACCESS (ATIME)
 
 Test the timestamp which is updated whenever the object is accessed, for
-example the file is read. Filesystem usually allows to disable I<atime>
+example the file is read. Filesystem usually allows one to disable I<atime>
 updates using mount options, so this test will work only if the filesystem
 performs atime updates.
 

@@ -113,7 +113,7 @@ void check_memcache(Socket_T socket) {
                         THROW(ProtocolException, "MEMCACHELEN: Invalid response code -- Key exists");
                         break;
                 default:
-                        THROW(ProtocolException, "MEMCACHELEN: Unknow response code %u -- error occurred", status);
+                        THROW(ProtocolException, "MEMCACHELEN: Unknown response code %u -- error occurred", status);
                         break;
         }
 }
