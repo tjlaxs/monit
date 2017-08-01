@@ -149,10 +149,9 @@ monit.1: doc/monit.pod
 
 src/y.tab.c src/tokens.h: src/p.y
 	$(YACC) $(YACCFLAGS) -o src/y.tab.c $<
-	-echo "#include <config.h>" > src/.y.tab.c
-	-cat src/y.tab.c >> src/.y.tab.c
-	-mv src/.y.tab.c src/y.tab.c
 	-mv src/y.tab.h src/tokens.h
+
+src/tokens.h: src/y.tab.c
 
 src/lex.yy.c: src/l.l
 	$(FLEX) $(FLEXFLAGS) -o$@ $<
