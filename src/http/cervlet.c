@@ -614,7 +614,7 @@ static void do_head(HttpResponse res, const char *path, const char *name, int re
                             "<table id='nav' width='100%%'>"\
                             "  <tr>"\
                             "    <td width='20%%'><a href='.'>Home</a>&nbsp;&gt;&nbsp;<a href='%s'>%s</a></td>"\
-                            "    <td width='60%%' style='text-align:center;'>Use <a href='http://mmonit.com/'>M/Monit</a> to manage all your Monit instances</td>"\
+                            "    <td width='60%%' style='text-align:center;'>Use <a href='https://mmonit.com/'>M/Monit</a> to manage all your Monit instances</td>"\
                             "    <td width='20%%'><p class='right'><a href='_about'>Monit %s</a></td>"\
                             "  </tr>"\
                             "</table>"\
