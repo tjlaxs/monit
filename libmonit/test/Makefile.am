@@ -37,5 +37,5 @@ distclean-local:
 	-rm -f Makefile.in
 
 verify:
-	@/bin/bash ./test.sh
+	@/bin/sh ./test.sh
 
