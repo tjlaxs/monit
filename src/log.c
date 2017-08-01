@@ -106,13 +106,112 @@ static struct mylogpriority {
 };
 
 
-/* -------------------------------------------------------------- Prototypes */
+/* ----------------------------------------------------------------- Private */
 
 
-static boolean_t open_log();
-static const char *logPriorityDescription(int p);
-static void log_log(int priority, const char *s, va_list ap);
-static void log_backtrace();
+/**
+ * Open a log file or syslog
+ */
+static boolean_t open_log() {
+        if (Run.flags & Run_UseSyslog) {
+                openlog(prog, LOG_PID, Run.facility);
+        } else {
+                LOG = fopen(Run.files.log, "a+");
+                if (! LOG) {
+                        LogError("Error opening the log file '%s' for writing -- %s\n", Run.files.log, STRERROR);
+                        return false;
+                }
+                /* Set logger in unbuffered mode */
+                setvbuf(LOG, NULL, _IONBF, 0);
+        }
+        return true;
+}
+
+
+/**
+ * Get a textual description of the actual log priority.
+ * @param p The log priority
+ * @return A string describing the log priority in clear text. If the
+ * priority is not found NULL is returned.
+ */
+static const char *logPriorityDescription(int p) {
+        struct mylogpriority *lp = logPriority;
+        while ((*lp).description) {
+                if (p == (*lp).priority) {
+                        return (*lp).description;
+                }
+                lp++;
+        }
+        return "unknown";
+}
+
+
+/**
+ * Log a message to monits logfile or syslog.
+ * @param priority A message priority
+ * @param s A formated (printf-style) string to log
+ */
+static void log_log(int priority, const char *s, va_list ap) {
+        ASSERT(s);
+#ifdef HAVE_VA_COPY
+        va_list ap_copy;
+#endif
+        LOCK(log_mutex)
+        {
+
+                FILE *output = priority < LOG_INFO ? stderr : stdout;
+#ifdef HAVE_VA_COPY
+                va_copy(ap_copy, ap);
+                vfprintf(output, s, ap_copy);
+                va_end(ap_copy);
+#else
+                vfprintf(output, s, ap);
+#endif
+                fflush(output);
+                if (Run.flags & Run_Log) {
+                        if (Run.flags & Run_UseSyslog) {
+#ifdef HAVE_VA_COPY
+                                va_copy(ap_copy, ap);
+                                vsyslog(priority, s, ap_copy);
+                                va_end(ap_copy);
+#else
+                                vsyslog(priority, s, ap);
+#endif
+                        } else if (LOG) {
+                                char datetime[STRLEN];
+                                fprintf(LOG, "[%s] %-8s : ", Time_fmt(datetime, sizeof(datetime), TIMEFORMAT, time(NULL)), logPriorityDescription(priority));
+#ifdef HAVE_VA_COPY
+                                va_copy(ap_copy, ap);
+                                vfprintf(LOG, s, ap_copy);
+                                va_end(ap_copy);
+#else
+                                vfprintf(LOG, s, ap);
+#endif
+
+                        }
+                }
+        }
+        END_LOCK;
+}
+
+
+static void log_backtrace() {
+#ifdef HAVE_BACKTRACE
+        int i, frames;
+        void *callstack[128];
+        char **strs;
+
+        if (Run.debug >= 2) {
+                frames = backtrace(callstack, 128);
+                strs = backtrace_symbols(callstack, frames);
+                LogDebug("-------------------------------------------------------------------------------\n");
+                for (i = 0; i < frames; ++i)
+                LogDebug("    %s\n", strs[i]);
+                LogDebug("-------------------------------------------------------------------------------\n");
+                FREE(strs);
+        }
+#endif
+}
 
 
 /* ------------------------------------------------------------------ Public */
@@ -400,112 +499,4 @@ void vsyslog (int facility_priority, const char *format, va_list arglist) {
 }
 #endif /* HAVE_SYSLOG */
 #endif /* HAVE_VSYSLOG */
-
-
-/* ----------------------------------------------------------------- Private */
-
-
-/**
- * Open a log file or syslog
- */
-static boolean_t open_log() {
-        if (Run.flags & Run_UseSyslog) {
-                openlog(prog, LOG_PID, Run.facility);
-        } else {
-                LOG = fopen(Run.files.log, "a+");
-                if (! LOG) {
-                        LogError("Error opening the log file '%s' for writing -- %s\n", Run.files.log, STRERROR);
-                        return false;
-                }
-                /* Set logger in unbuffered mode */
-                setvbuf(LOG, NULL, _IONBF, 0);
-        }
-        return true;
-}
-
-
-/**
- * Get a textual description of the actual log priority.
- * @param p The log priority
- * @return A string describing the log priority in clear text. If the
- * priority is not found NULL is returned.
- */
-static const char *logPriorityDescription(int p) {
-        struct mylogpriority *lp = logPriority;
-        while ((*lp).description) {
-                if (p == (*lp).priority) {
-                        return (*lp).description;
-                }
-                lp++;
-        }
-        return "unknown";
-}
-
-
-/**
- * Log a message to monits logfile or syslog.
- * @param priority A message priority
- * @param s A formated (printf-style) string to log
- */
-static void log_log(int priority, const char *s, va_list ap) {
-        ASSERT(s);
-#ifdef HAVE_VA_COPY
-        va_list ap_copy;
-#endif
-        LOCK(log_mutex)
-        {
-
-                FILE *output = priority < LOG_INFO ? stderr : stdout;
-#ifdef HAVE_VA_COPY
-                va_copy(ap_copy, ap);
-                vfprintf(output, s, ap_copy);
-                va_end(ap_copy);
-#else
-                vfprintf(output, s, ap);
-#endif
-                fflush(output);
-                if (Run.flags & Run_Log) {
-                        if (Run.flags & Run_UseSyslog) {
-#ifdef HAVE_VA_COPY
-                                va_copy(ap_copy, ap);
-                                vsyslog(priority, s, ap_copy);
-                                va_end(ap_copy);
-#else
-                                vsyslog(priority, s, ap);
-#endif
-                        } else if (LOG) {
-                                char datetime[STRLEN];
-                                fprintf(LOG, "[%s] %-8s : ", Time_fmt(datetime, sizeof(datetime), TIMEFORMAT, time(NULL)), logPriorityDescription(priority));
-#ifdef HAVE_VA_COPY
-                                va_copy(ap_copy, ap);
-                                vfprintf(LOG, s, ap_copy);
-                                va_end(ap_copy);
-#else
-                                vfprintf(LOG, s, ap);
-#endif
-
-                        }
-                }
-        }
-        END_LOCK;
-}
-
-
-static void log_backtrace() {
-#ifdef HAVE_BACKTRACE
-        int i, frames;
-        void *callstack[128];
-        char **strs;
-
-        if (Run.debug >= 2) {
-                frames = backtrace(callstack, 128);
-                strs = backtrace_symbols(callstack, frames);
-                LogDebug("-------------------------------------------------------------------------------\n");
-                for (i = 0; i < frames; ++i)
-                        LogDebug("    %s\n", strs[i]);
-                LogDebug("-------------------------------------------------------------------------------\n");
-                FREE(strs);
-        }
-#endif
-}
 
