@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		523753E71F34BC1C001522CD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9397E3081D897CCA008CAD1F /* libz.tbd */; };
 		52A1311D13A7886800583257 /* libmonit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1311C13A7886800583257 /* libmonit.a */; };
 		52AE77CC14037DA300D2861D /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 52AE77CA14037DA300D2861D /* sha1.c */; };
 		52AE77CF14037E6A00D2861D /* md5_crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 52AE77CD14037E6A00D2861D /* md5_crypt.c */; };
@@ -81,7 +82,6 @@
 		9365D2311E28F40800FCF3FB /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365D2301E28F40800FCF3FB /* DiskArbitration.framework */; };
 		9365D2331E28F41500FCF3FB /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9365D2321E28F41500FCF3FB /* CoreFoundation.framework */; };
 		9378737B1A13907100CF8C5E /* sieve.c in Sources */ = {isa = PBXBuildFile; fileRef = 9378737A1A13907100CF8C5E /* sieve.c */; };
-		9397E3091D897CCA008CAD1F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9397E3081D897CCA008CAD1F /* libz.tbd */; };
 		93A23ED41C85E6890076FBFE /* Address.c in Sources */ = {isa = PBXBuildFile; fileRef = 93A23ED21C85E6890076FBFE /* Address.c */; };
 		93DE91B01CBAED0400BC8E0C /* client.c in Sources */ = {isa = PBXBuildFile; fileRef = 93DE91AE1CBAED0400BC8E0C /* client.c */; };
 		93F14A6B1EE7002500FF756B /* fail2ban.c in Sources */ = {isa = PBXBuildFile; fileRef = 93F14A691EE7002500FF756B /* fail2ban.c */; };
@@ -331,10 +331,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				523753E71F34BC1C001522CD /* libz.tbd in Frameworks */,
 				9365D2331E28F41500FCF3FB /* CoreFoundation.framework in Frameworks */,
 				9365D2311E28F40800FCF3FB /* DiskArbitration.framework in Frameworks */,
 				9365D22B1E28F3FC00FCF3FB /* IOKit.framework in Frameworks */,
-				9397E3091D897CCA008CAD1F /* libz.tbd in Frameworks */,
 				930E68291C4FD15900D9F213 /* libcrypto.1.0.0.dylib in Frameworks */,
 				930E68271C4FD0D600D9F213 /* libssl.1.0.0.dylib in Frameworks */,
 				52F67BDD1BD7AC5A0092111B /* libpam.tbd in Frameworks */,

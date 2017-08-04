@@ -32,7 +32,6 @@
 		52E737DC1EE71099007BF939 /* ProtocolException.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E737DB1EE71099007BF939 /* ProtocolException.h */; };
 		52F8BB3C1ECE55270007DF91 /* libmonit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A31C821A6531D8009D3D83 /* libmonit.a */; };
 		52F8BB421ECE554D0007DF91 /* StringBufferTest.c in Sources */ = {isa = PBXBuildFile; fileRef = 52936F8213A5212700FC4089 /* StringBufferTest.c */; };
-		52F8BB471ECE567A0007DF91 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F8BB461ECE567A0007DF91 /* libz.1.dylib */; };
 		52F8BB541ECE5A570007DF91 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F8BB461ECE567A0007DF91 /* libz.1.dylib */; };
 		52FDD6B1189C205E008E3D5E /* CommandTest.c in Sources */ = {isa = PBXBuildFile; fileRef = 52936F7713A5212700FC4089 /* CommandTest.c */; };
 		93EAFCB81E1BFAC800B31673 /* Statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = 93EAFCB31E1BFAC800B31673 /* Statistics.c */; };
@@ -213,7 +212,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52F8BB471ECE567A0007DF91 /* libz.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
