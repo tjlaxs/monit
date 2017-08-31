@@ -1,4 +1,5 @@
 [![Monit](https://mmonit.com/monit/img/logo@2x.png)](https://mmonit.com/monit/)
+[![Build Status](https://travis-ci.org/tjlaxs/monit.svg?branch=master)](https://travis-ci.org/tjlaxs/monit)
 
 
 #[Monit](https://mmonit.com/monit/) is a free open source utility for managing and monitoring, processes, programs, files, directories and filesystems on a UNIX system. Monit conducts automatic maintenance and repair and can execute meaningful causal actions in error situations.#
