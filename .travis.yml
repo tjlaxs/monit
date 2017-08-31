@@ -1,5 +1,5 @@
 language: c
-script: ./bootstrap && ./configure --without-pam --without-ssl && make && make test
+script: ./bootstrap && ./configure --without-pam --without-ssl && make
 branches:
   only:
   - master
